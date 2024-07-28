@@ -11,25 +11,20 @@ import type {
   AnyContext,
   AnyPathParams,
   AnyRoute,
-  AnySearchSchema,
+  AnySearchValidator,
+  DefaultSearchValidator,
   FileBaseRouteOptions,
   InferAllContext,
   ResolveAllContext,
   ResolveAllParamsFromParent,
-  ResolveFullSearchSchema,
-  ResolveFullSearchSchemaInput,
   ResolveLoaderData,
   ResolveRouteContext,
-  ResolveSearchSchemaUsed,
   Route,
   RouteConstraints,
   RouteContext,
   RouteLoaderFn,
-  SearchSchemaInput,
-  TrimPathLeft,
   UpdatableRouteOptions,
 } from './route'
-import type { Assign, IsAny } from './utils'
 import type { MakeRouteMatch } from './Matches'
 import type { NoInfer } from '@tanstack/react-store'
 import type { RegisteredRouter } from './router'
@@ -77,17 +72,7 @@ export class FileRoute<
   }
 
   createRoute = <
-    TSearchSchemaInput = Record<string, unknown>,
-    TSearchSchema = {},
-    TSearchSchemaUsed = ResolveSearchSchemaUsed<
-      TSearchSchemaInput,
-      TSearchSchema
-    >,
-    TFullSearchSchemaInput = ResolveFullSearchSchemaInput<
-      TParentRoute,
-      TSearchSchemaUsed
-    >,
-    TFullSearchSchema = ResolveFullSearchSchema<TParentRoute, TSearchSchema>,
+    TSearchValidator extends AnySearchValidator = DefaultSearchValidator,
     TParams = Record<ParsePathParams<TPath>, string>,
     TAllParams = ResolveAllParamsFromParent<TParentRoute, TParams>,
     TRouteContextReturn = RouteContext,
@@ -99,10 +84,9 @@ export class FileRoute<
     TChildren = unknown,
   >(
     options?: FileBaseRouteOptions<
+      TParentRoute,
       TPath,
-      TSearchSchemaInput,
-      TSearchSchema,
-      TFullSearchSchema,
+      TSearchValidator,
       TParams,
       TAllParams,
       TRouteContextReturn,
@@ -112,9 +96,10 @@ export class FileRoute<
       TLoaderDataReturn
     > &
       UpdatableRouteOptions<
+        TParentRoute,
         TId,
         TAllParams,
-        TFullSearchSchema,
+        TSearchValidator,
         TLoaderData,
         TAllContext,
         TRouteContext,
@@ -126,11 +111,7 @@ export class FileRoute<
     TFullPath,
     TFilePath,
     TId,
-    TSearchSchemaInput,
-    TSearchSchema,
-    TSearchSchemaUsed,
-    TFullSearchSchemaInput,
-    TFullSearchSchema,
+    TSearchValidator,
     TParams,
     TAllParams,
     TRouteContextReturn,
@@ -183,9 +164,10 @@ export function FileRouteLoader<
 
 export type LazyRouteOptions = Pick<
   UpdatableRouteOptions<
+    AnyRoute,
     string,
     AnyPathParams,
-    AnySearchSchema,
+    AnySearchValidator,
     {},
     AnyContext,
     AnyContext,
