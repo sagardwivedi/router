@@ -1140,6 +1140,7 @@ export class Router<
           scripts: route.options.scripts?.(),
           staticData: route.options.staticData || {},
           loadPromise: createControlledPromise(),
+          fullPath: route.fullPath,
         }
       }
 
