@@ -12,7 +12,7 @@ import type * as React from 'react'
 import type { RootRouteId } from './root'
 import type { UseNavigateResult } from './useNavigate'
 import type { MakeRouteMatch, RouteMatch } from './Matches'
-import type { NavigateOptions, ParsePathParams, ToSubOptions } from './link'
+import type { NavigateOptions, ParsePathParams, ToMaskOptions } from './link'
 import type { ParsedLocation } from './location'
 import type { RouteById, RouteIds, RoutePaths } from './routeInfo'
 import type { AnyRouter, RegisteredRouter, Router } from './router'
@@ -795,7 +795,7 @@ export class Route<
 
     const isRoot = !options?.path && !options?.id
 
-    // eslint-disable-next-line ts/no-unnecessary-condition
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     this.parentRoute = this.options?.getParentRoute?.()
 
     if (isRoot) {
@@ -1246,7 +1246,7 @@ export function createRouteMask<
 >(
   opts: {
     routeTree: TRouteTree
-  } & ToSubOptions<Router<TRouteTree, 'never'>, TFrom, TTo>,
+  } & ToMaskOptions<Router<TRouteTree, 'never'>, TFrom, TTo>,
 ): RouteMask<TRouteTree> {
   return opts as any
 }
